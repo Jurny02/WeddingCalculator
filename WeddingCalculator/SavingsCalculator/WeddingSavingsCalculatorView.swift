@@ -1,38 +1,16 @@
 import SwiftUI
 
 struct WeddingSavingsCalculatorView: View {
-    @State private var weddingDate: Date = {
-        var components = DateComponents()
-        components.day = 7
-        components.month = 8
-        components.year = 2027
-        return Calendar.current.date(from: components) ?? Date()
-    }()
-    @State private var currentSavings: Double = 0
-    @State private var currentSavingsEUR: Double = 0
-    @State private var groomMonthly: Double = 0
-    @State private var brideMonthly: Double = 0
-    
-    // Ile miesięcy do ślubu
-    var monthsUntilWedding: Int {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.month], from: Date(), to: weddingDate)
-        return max(components.month ?? 0, 0)
-    }
-    
-    // Kwota, która będzie uzbierana do dnia wesela
-    var totalAtWedding: Double {
-        currentSavings + currentSavingsEUR * 4.3 + (Double(monthsUntilWedding) * (groomMonthly + brideMonthly))
-    }
+    @State private var calculatorState = CalculatorState()
     
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Data ślubu")) {
-                    DatePicker("Wybierz datę", selection: $weddingDate, displayedComponents: .date)
+                    DatePicker("Wybierz datę", selection: $calculatorState.weddingDate, displayedComponents: .date)
                         .datePickerStyle(.compact)
                     
-                    Text("Pozostało: **\(monthsUntilWedding)** miesięcy")
+                    Text("Pozostało: **\(calculatorState.monthsUntilWedding)** miesięcy")
                         .foregroundColor(.secondary)
                 }
                 
@@ -40,7 +18,7 @@ struct WeddingSavingsCalculatorView: View {
                     HStack {
                         Text("Zebrana kwota")
                         Spacer()
-                        TextField("0", value: $currentSavings, format: .currency(code: "PLN"))
+                        TextField("0", value: $calculatorState.currentSavings, format: .currency(code: "PLN"))
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                     }
@@ -48,7 +26,7 @@ struct WeddingSavingsCalculatorView: View {
                     HStack {
                         Text("Zebrana kwota w euro")
                         Spacer()
-                        TextField("0", value: $currentSavingsEUR, format: .currency(code: "EUR"))
+                        TextField("0", value: $calculatorState.currentSavingsEUR, format: .currency(code: "EUR"))
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                     }
@@ -58,14 +36,14 @@ struct WeddingSavingsCalculatorView: View {
                     HStack {
                         Text("Pan młody")
                         Spacer()
-                        TextField("0", value: $groomMonthly, format: .currency(code: "PLN"))
+                        TextField("0", value: $calculatorState.groomMonthly, format: .currency(code: "PLN"))
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                     }
                     HStack {
                         Text("Pani młoda")
                         Spacer()
-                        TextField("0", value: $brideMonthly, format: .currency(code: "PLN"))
+                        TextField("0", value: $calculatorState.brideMonthly, format: .currency(code: "PLN"))
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                     }
@@ -76,13 +54,23 @@ struct WeddingSavingsCalculatorView: View {
                         Text("Uzbierana suma do wesela")
                             .font(.headline)
                         Spacer()
-                        Text(totalAtWedding, format: .currency(code: "PLN"))
+                        Text(calculatorState.totalAtWedding, format: .currency(code: "PLN"))
                             .font(.headline)
                             .foregroundColor(.green)
                     }
                 }
+                Section {
+                    Button("Zapisz dane") {
+                        calculatorState.save()
+                    }
+                } header: {
+                    Text("Save")
+                }
             }
             .navigationTitle("Kalkulator oszczędności")
+            .onAppear {
+                calculatorState.getData()
+            }
         }
     }
 }

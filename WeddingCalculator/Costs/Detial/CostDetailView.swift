@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct CostDetailView: View {
-    let cost: Cost
+    @Environment(NavigationManager<CostNavigation>.self) private var navigationManager
+    @Environment(\.modelContext) var context
     @State private var showingDeleteAlert = false
+    
+    let cost: Cost
     
     var body: some View {
         ScrollView {
@@ -121,19 +124,12 @@ struct CostDetailView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    showingDeleteAlert = true
+                    navigationManager.navigate(to: .editCost(cost))
                 }) {
-                    Image(systemName: "trash")
+                    Image(systemName: "pencil")
                         .foregroundColor(.red)
                 }
             }
-        }
-        .alert("Delete Cost", isPresented: $showingDeleteAlert) {
-            Button("Cancel", role: .cancel) { }
-            Button("Delete", role: .destructive) {
-            }
-        } message: {
-            Text("Are you sure you want to delete \(cost.name)? This action cannot be undone.")
         }
     }
 

@@ -6,19 +6,28 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct Cost: Identifiable {
+@Model
+class Cost: Identifiable {
     
-    let id: UUID = UUID()
-    let name: String
-    let fullAmount: Double
-    let paidAmount: Double
+    var id: UUID
+    var name: String
+    var fullAmount: Double
+    var paidAmount: Double
     
     var amountToPay: Double {
         fullAmount - paidAmount
     }
     
-    static var fakeData: Self {
+    init(name: String, fullAmount: Double, paidAmount: Double) {
+        self.id = UUID()
+        self.name = name
+        self.fullAmount = fullAmount
+        self.paidAmount = paidAmount
+    }
+
+    static var fakeData: Cost {
         .init(name: "DJ", fullAmount: 6000, paidAmount: 1000)
     }
 }
