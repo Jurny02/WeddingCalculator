@@ -13,33 +13,41 @@ struct CostListView: View {
     var body: some View {
         NavigationStack(path: $navigationManager.navigationPath) {
             VStack(spacing: 0) {
-                List {
-                    ForEach(allCosts) { cost in
-                        Button {
-                            navigationManager.navigate(to: .costDetail(cost))
-                        } label: {
-                            CostCell(cost: cost)
+                if allCosts.isEmpty {
+                    ContentUnavailableView {
+                        Label("No Guests", systemImage: "exclamationmark.circle.fill")
+                    } description: {
+                        Text("New mails you receive will appear here.")
+                    }
+                } else {
+                    List {
+                        ForEach(allCosts) { cost in
+                            Button {
+                                navigationManager.navigate(to: .costDetail(cost))
+                            } label: {
+                                CostCell(cost: cost)
+                            }
+                        }
+                        .onDelete { indexSet in
+                            for index in indexSet {
+                                context.delete(allCosts[index])
+                            }
                         }
                     }
-                    .onDelete { indexSet in
-                        for index in indexSet {
-                            context.delete(allCosts[index])
-                        }
+                    .listStyle(.insetGrouped)
+                    
+                    // Suma pozostała do zapłaty
+                    HStack {
+                        Text("Suma do zapłaty:")
+                            .font(.headline)
+                        Spacer()
+                        Text(totalRemaining, format: .currency(code: "PLN"))
+                            .font(.headline)
+                            .foregroundColor(.red)
                     }
+                    .padding()
+                    .background(Color(.systemGray6))
                 }
-                .listStyle(.insetGrouped)
-                
-                // Suma pozostała do zapłaty
-                HStack {
-                    Text("Suma do zapłaty:")
-                        .font(.headline)
-                    Spacer()
-                    Text(totalRemaining, format: .currency(code: "PLN"))
-                        .font(.headline)
-                        .foregroundColor(.red)
-                }
-                .padding()
-                .background(Color(.systemGray6))
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Wydatki")

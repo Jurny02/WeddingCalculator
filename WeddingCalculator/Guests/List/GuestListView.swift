@@ -3,7 +3,7 @@
 //  WeddingCalculator
 //
 //  Created by Bartosz Jurczyk on 14/08/2025.
-//
+// 
 
 import SwiftUI
 
@@ -14,43 +14,55 @@ struct GuestListView: View {
     var body: some View {
         NavigationStack(path: $navigationManager.navigationPath) {
             VStack(spacing: 0) {
-                filterView
-                
-                List {
-                    Section {
-                        ForEach(guestListManager.fillterdGuestList) { guest in
-                            GuestCell(guest: guest)
-                                .onTapGesture {
-                                    navigationManager.navigate(to: .guestDetail(guest))
-                                }
-                        }
+                if guestListManager.fillterdGuestList.isEmpty {
+                    ContentUnavailableView {
+                        Label("No Guests", systemImage: "exclamationmark.circle.fill")
+                    } description: {
+                        Text("New mails you receive will appear here.")
                     }
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Menu {
-                        Picker("Sort by", selection: $guestListManager.sortConfiguration.sortOption) {
-                            ForEach(GuestSortOption.allCases, id: \.self) { option in
-                                Label(option.rawValue, systemImage: sortIcon(for: option))
-                                    .tag(option)
+                } else {
+                    filterView
+                    
+                    List {
+                        Section {
+                            ForEach(guestListManager.fillterdGuestList) { guest in
+                                GuestCell(guest: guest)
+                                    .onTapGesture {
+                                        navigationManager.navigate(to: .guestDetail(guest))
+                                    }
                             }
                         }
-                    } label: {
-                        Image(systemName: "arrow.up.arrow.down")
-                            .foregroundColor(.blue)
                     }
                 }
                 
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        guestListManager.sortConfiguration.toggleSortDirection()
-                    }) {
-                        Image(systemName: guestListManager.sortConfiguration.sortDirection.icon)
-                            .foregroundColor(.blue)
+                
+            }
+            .toolbar {
+                if !guestListManager.fillterdGuestList.isEmpty {
+                    
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Menu {
+                            Picker("Sort by", selection: $guestListManager.sortConfiguration.sortOption) {
+                                ForEach(GuestSortOption.allCases, id: \.self) { option in
+                                    Label(option.rawValue, systemImage: sortIcon(for: option))
+                                        .tag(option)
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            guestListManager.sortConfiguration.toggleSortDirection()
+                        }) {
+                            Image(systemName: guestListManager.sortConfiguration.sortDirection.icon)
+                                .foregroundColor(.blue)
+                        }
                     }
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         navigationManager.navigate(to: .addGuest)
@@ -87,7 +99,7 @@ struct GuestListView: View {
                 Text("Showing \(guestListManager.fillterdGuestList.count) of \(guestListManager.guestList.count) guests")
                     .font(.caption)
                     .foregroundColor(.secondary)
-
+                
                 Spacer()
             }
             .padding(.horizontal)

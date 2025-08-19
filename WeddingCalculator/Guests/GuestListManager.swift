@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 class GuestListManager {
-    private var _guestList: [GuestModel] = GuestModel.fakeData
+    private var _guestList: [GuestModel] = []
     var sortConfiguration = SortConfiguration()
     
     var guestList: [GuestModel] {

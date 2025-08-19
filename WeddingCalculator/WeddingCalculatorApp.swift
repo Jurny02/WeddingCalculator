@@ -14,6 +14,6 @@ struct WeddingCalculatorApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: Cost.self)
+        .modelContainer(for: [Cost.self, GuestModel.self])
     }
 }

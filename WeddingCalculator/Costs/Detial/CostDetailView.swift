@@ -127,7 +127,6 @@ struct CostDetailView: View {
                     navigationManager.navigate(to: .editCost(cost))
                 }) {
                     Image(systemName: "pencil")
-                        .foregroundColor(.red)
                 }
             }
         }

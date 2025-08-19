@@ -68,6 +68,7 @@ struct WeddingSavingsCalculatorView: View {
                 }
             }
             .navigationTitle("Kalkulator oszczędności")
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 calculatorState.getData()
             }
