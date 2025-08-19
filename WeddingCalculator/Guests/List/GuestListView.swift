@@ -8,52 +8,17 @@
 import SwiftUI
 
 struct GuestListView: View {
-    @StateObject private var guestListManager = GuestListManager()
-    @StateObject private var navigationManager = NavigationManager<GuestNavigation>()
-    @State private var filterOption: GuestFilterOption = .all
-    @State private var sortOption: GuestSortOption = .name
-    @State private var sortDirection: SortDirection = .ascending
-    
-    var filteredAndSortedGuestList: [GuestModel] {
-        let filtered = guestListManager.getFilteredGuests(by: filterOption)
-        return guestListManager.getSortedGuests(filtered, by: sortOption, direction: sortDirection)
-    }
+    @State private var guestListManager = GuestListManager()
+    @State private var navigationManager = NavigationManager<GuestNavigation>()
     
     var body: some View {
         NavigationStack(path: $navigationManager.navigationPath) {
             VStack(spacing: 0) {
-                // Filter Section
-                VStack(spacing: 12) {
-                    // Filter Picker
-                    Picker("Filter", selection: $filterOption) {
-                        ForEach(GuestFilterOption.allCases, id: \.self) { option in
-                            Text(option.rawValue).tag(option)
-                        }
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding(.horizontal)
-                    
-                    // Filter Summary
-                    HStack {
-                        Text("Showing \(filteredAndSortedGuestList.count) of \(guestListManager.guestList.count) guests")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        
-                        Spacer()
-                        
-                        Text("Total: \(filteredAndSortedGuestList.getSumOfGuests())")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.horizontal)
-                }
-                .padding(.vertical, 8)
-                .background(Color(.systemGray6))
+                filterView
                 
-                // Guest List
                 List {
                     Section {
-                        ForEach(filteredAndSortedGuestList) { guest in
+                        ForEach(guestListManager.fillterdGuestList) { guest in
                             GuestCell(guest: guest)
                                 .onTapGesture {
                                     navigationManager.navigate(to: .guestDetail(guest))
@@ -62,12 +27,10 @@ struct GuestListView: View {
                     }
                 }
             }
-            .navigationTitle("Guests")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu {
-                        Picker("Sort by", selection: $sortOption) {
+                        Picker("Sort by", selection: $guestListManager.sortConfiguration.sortOption) {
                             ForEach(GuestSortOption.allCases, id: \.self) { option in
                                 Label(option.rawValue, systemImage: sortIcon(for: option))
                                     .tag(option)
@@ -81,9 +44,9 @@ struct GuestListView: View {
                 
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
-                        sortDirection = sortDirection == .ascending ? .descending : .ascending
+                        guestListManager.sortConfiguration.toggleSortDirection()
                     }) {
-                        Image(systemName: sortDirection.icon)
+                        Image(systemName: guestListManager.sortConfiguration.sortDirection.icon)
                             .foregroundColor(.blue)
                     }
                 }
@@ -97,12 +60,40 @@ struct GuestListView: View {
                     }
                 }
             }
+            .navigationTitle("Guests")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: GuestNavigation.self) { destination in
-                
+                viewFor(destination)
             }
+            
         }
-        .environmentObject(navigationManager)
-        .environmentObject(guestListManager)
+        .environment(navigationManager)
+        .environment(guestListManager)
+    }
+    
+    private var filterView : some View {
+        VStack(spacing: 12) {
+            // Filter Picker
+            Picker("Filter", selection: $guestListManager.sortConfiguration.filterOption) {
+                ForEach(GuestFilterOption.allCases, id: \.self) { option in
+                    Text(option.rawValue).tag(option)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding(.horizontal)
+            
+            // Filter Summary
+            HStack {
+                Text("Showing \(guestListManager.fillterdGuestList.count) of \(guestListManager.guestList.count) guests")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+
+                Spacer()
+            }
+            .padding(.horizontal)
+        }
+        .padding(.vertical, 8)
+        .background(Color(.systemGray6))
     }
     
     private func sortIcon(for option: GuestSortOption) -> String {
@@ -116,19 +107,21 @@ struct GuestListView: View {
         }
     }
     
-    func viewFor(_ destination: GuestNavigation) {
-        switch destination {
-        case .addGuest:
-            AddGuestView()
-        case .guestDetail(let guest):
-            GuestDetailView(guest: guest, guestList: $guestListManager.guestList)
-        case .editGuest(let guest):
-            EditGuestView(guest: guest)
+    func viewFor(_ destination: GuestNavigation) -> some View {
+        ZStack {
+            switch destination {
+            case .addGuest:
+                AddGuestView()
+            case .guestDetail(let guest):
+                GuestDetailView(guest: guest)
+            case .editGuest(let guest):
+                EditGuestView(guest: guest)
+            }
         }
     }
 }
 
 #Preview {
     GuestListView()
-        .environmentObject(NavigationManager<GuestNavigation>())
+        .environment(NavigationManager<GuestNavigation>())
 }

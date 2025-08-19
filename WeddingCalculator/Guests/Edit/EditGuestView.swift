@@ -9,8 +9,8 @@ import SwiftUI
 
 struct EditGuestView: View {
     let guest: GuestModel
-    @EnvironmentObject private var guestListManager: GuestListManager
-    @EnvironmentObject private var navigationManager: NavigationManager<GuestNavigation>
+    @Environment(GuestListManager.self) private var guestListManager
+    @Environment(NavigationManager<GuestNavigation>.self) private var navigationManager
     
     @State private var name: String
     @State private var numberOfGuests: Int
@@ -22,6 +22,10 @@ struct EditGuestView: View {
         numberOfGuests == guest.numberOfGuests &&
         country == guest.country &&
         confirmed == guest.confirmed
+    }
+    
+    private var saveButtonDisabled: Bool {
+        name.isEmpty || country.isEmpty || hasNoChanges
     }
     
     init(guest: GuestModel) {
@@ -50,7 +54,7 @@ struct EditGuestView: View {
                 Button("Save Changes") {
                     saveChanges()
                 }
-                .disabled(name.isEmpty || country.isEmpty || hasNoChanges)
+                .disabled(saveButtonDisabled)
             }
         }
         .navigationTitle("Edit Guest")
@@ -58,7 +62,7 @@ struct EditGuestView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button("Cancel") {
-                    navigationManager.navigateToRoot()
+                    navigationManager.navigateBack()
                 }
             }
             
@@ -86,6 +90,6 @@ struct EditGuestView: View {
 
 #Preview {
     EditGuestView(guest: GuestModel.fakeData[0])
-        .environmentObject(GuestListManager())
-        .environmentObject(NavigationManager<GuestNavigation>())
+        .environment(GuestListManager())
+        .environment(NavigationManager<GuestNavigation>())
 }

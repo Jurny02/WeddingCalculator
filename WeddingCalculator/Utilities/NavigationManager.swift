@@ -8,9 +8,9 @@
 import SwiftUI
 
 // MARK: - Generic Navigation Manager
-@MainActor
-class NavigationManager<T>: ObservableObject {
-    @Published var navigationPath: [T] = []
+@MainActor @Observable
+class NavigationManager<T> {
+    var navigationPath: [T] = []
     
     // MARK: - Navigation Methods
     func navigate(to destination: T) {

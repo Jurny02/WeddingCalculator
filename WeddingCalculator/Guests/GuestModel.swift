@@ -8,9 +8,7 @@
 import Foundation
 
 struct GuestModel: Identifiable, Hashable {
-    var id: Int {
-        self.hashValue
-    }
+    let id =  UUID()
     let name: String
     let confirmed: Bool
     let numberOfGuests: Int
@@ -23,33 +21,29 @@ struct GuestModel: Identifiable, Hashable {
         GuestModel(name: "Carlos Hernandez", confirmed: true, numberOfGuests: 4, country: "Spain"),
         GuestModel(name: "Sophie Dubois", confirmed: false, numberOfGuests: 2, country: "France"),
         GuestModel(name: "Liam O'Connor", confirmed: true, numberOfGuests: 1, country: "Ireland"),
-        GuestModel(name: "Yuki Tanaka", confirmed: false, numberOfGuests: 2, country: "Japan"),
-        GuestModel(name: "Anna Kowalska", confirmed: true, numberOfGuests: 2, country: "Poland")
+        GuestModel(name: "Yuki Tanaka", confirmed: false, numberOfGuests: 2, country: "Japan")
     ]
 }
 
 extension [GuestModel] {
-    func getSumOfGuests(onlyConfirmed: Bool = false) -> Int {
-        let searchedArray: [GuestModel] = onlyConfirmed ? filter(\.confirmed) : self
-        return searchedArray.reduce(0) { partialResult, nextElement in
-            partialResult + nextElement.numberOfGuests
-        }
-    }
     
-    func sort(by sortOption: GuestSortOption, direction: SortDirection) -> [GuestModel] {
-        let isAscending = direction == .ascending
-        return switch sortOption {
+    func apply(sortConfig: SortConfiguration) -> Self {
+        let filterList = switch sortConfig.filterOption {
+        case .all:
+            self
+        case .confirmed:
+             filter { $0.confirmed }
+        case .notConfirmed:
+            filter { !$0.confirmed }
+        }
+        
+        return switch sortConfig.sortOption {
         case .name:
-            sorted { isAscending ? $0.name < $1.name : $0.name > $1.name }
+            filterList.sorted(by: \.name, direction: sortConfig.sortDirection)
         case .country:
-            sorted { isAscending ? $0.country < $1.country : $0.country > $1.country }
+            filterList.sorted(by: \.country, direction: sortConfig.sortDirection)
         case .count:
-            sorted { isAscending ? $0.numberOfGuests < $1.numberOfGuests : $0.numberOfGuests > $1.numberOfGuests }
+            filterList.sorted(by: \.numberOfGuests, direction: sortConfig.sortDirection)
         }
     }
 }
-
-extension [GuestModel] {
-    
-}
-

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct GuestDetailView: View {
-    let guest: GuestModel
-    @Binding var guestList: [GuestModel]
-    @EnvironmentObject private var navigationManager: NavigationManager<GuestNavigation>
+    @Environment(NavigationManager<GuestNavigation>.self) private var navigationManager
+    @Environment(GuestListManager.self) var guestListManager
     @State private var showingDeleteAlert = false
+    let guest: GuestModel
     
     var body: some View {
         ScrollView {
@@ -133,24 +133,19 @@ struct GuestDetailView: View {
         .alert("Delete Guest", isPresented: $showingDeleteAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {
-                deleteGuest()
+                guestListManager.deleteGuest(guest)
+                navigationManager.navigateBack()
             }
         } message: {
             Text("Are you sure you want to delete \(guest.name)? This action cannot be undone.")
-        }
-    }
-    
-    private func deleteGuest() {
-        if let index = guestList.firstIndex(where: { $0.id == guest.id }) {
-            guestList.remove(at: index)
-            navigationManager.navigateToRoot()
         }
     }
 }
 
 #Preview {
     NavigationStack {
-        GuestDetailView(guest: GuestModel.fakeData[0], guestList: .constant(GuestModel.fakeData))
+        GuestDetailView(guest: GuestModel.fakeData[0])
     }
-    .environmentObject(NavigationManager<GuestNavigation>())
+    .environment(NavigationManager<GuestNavigation>())
+    .environment(GuestListManager())
 }

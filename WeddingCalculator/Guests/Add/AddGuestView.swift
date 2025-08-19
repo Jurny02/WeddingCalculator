@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct AddGuestView: View {
-    @EnvironmentObject private var guestListManager: GuestListManager
-    @EnvironmentObject private var navigationManager: NavigationManager<GuestNavigation>
+    @Environment(NavigationManager<GuestNavigation>.self) private var navigationManager
+    @Environment(GuestListManager.self) private var guestListManager
     
     @State private var name: String = ""
     @State private var numberOfGuests: Int = 1
@@ -61,6 +61,6 @@ struct AddGuestView: View {
 
 #Preview {
     AddGuestView()
-        .environmentObject(GuestListManager())
-        .environmentObject(NavigationManager<GuestNavigation>())
+        .environment(GuestListManager())
+        .environment(NavigationManager<GuestNavigation>())
 }
