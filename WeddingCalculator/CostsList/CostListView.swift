@@ -62,6 +62,8 @@ struct CostListView: View {
                 .padding()
                 .background(Color(.systemGray6))
             }
+            
+            .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Wydatki")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -73,6 +75,7 @@ struct CostListView: View {
                 }
             }
         }
+        
     }
     
     private func deleteCost(at offsets: IndexSet) {
@@ -82,6 +85,6 @@ struct CostListView: View {
 
 struct CostListView_Previews: PreviewProvider {
     static var previews: some View {
-        CostListView()
+        ContentView(startdestination: .main)
     }
 }

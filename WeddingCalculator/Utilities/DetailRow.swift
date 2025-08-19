@@ -8,11 +8,34 @@
 import SwiftUI
 
 struct DetailRow: View {
+    let icon: String
+    let title: String
+    let value: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack(spacing: 16) {
+            Image(systemName: icon)
+                .font(.title2)
+                .foregroundColor(.blue)
+                .frame(width: 30)
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .textCase(.uppercase)
+                Text(value)
+                    .font(.body)
+                    .fontWeight(.medium)
+            }
+            
+            Spacer()
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(10)
     }
 }
-
 #Preview {
-    DetailRow()
+    DetailRow(icon: "heart", title: "Bartosz", value: "Jurczyk")
 }

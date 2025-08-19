@@ -26,62 +26,64 @@ struct WeddingSavingsCalculatorView: View {
     }
     
     var body: some View {
-        Form {
-            Section(header: Text("Data ślubu")) {
-                DatePicker("Wybierz datę", selection: $weddingDate, displayedComponents: .date)
-                    .datePickerStyle(.compact)
-                
-                Text("Pozostało: **\(monthsUntilWedding)** miesięcy")
-                    .foregroundColor(.secondary)
-            }
-            
-            Section(header: Text("Obecne oszczędności")) {
-                HStack {
-                    Text("Zebrana kwota")
-                    Spacer()
-                    TextField("0", value: $currentSavings, format: .currency(code: "PLN"))
-                        .keyboardType(.decimalPad)
-                        .multilineTextAlignment(.trailing)
+        NavigationStack {
+            Form {
+                Section(header: Text("Data ślubu")) {
+                    DatePicker("Wybierz datę", selection: $weddingDate, displayedComponents: .date)
+                        .datePickerStyle(.compact)
+                    
+                    Text("Pozostało: **\(monthsUntilWedding)** miesięcy")
+                        .foregroundColor(.secondary)
                 }
                 
-                HStack {
-                    Text("Zebrana kwota w euro")
-                    Spacer()
-                    TextField("0", value: $currentSavingsEUR, format: .currency(code: "EUR"))
-                        .keyboardType(.decimalPad)
-                        .multilineTextAlignment(.trailing)
+                Section(header: Text("Obecne oszczędności")) {
+                    HStack {
+                        Text("Zebrana kwota")
+                        Spacer()
+                        TextField("0", value: $currentSavings, format: .currency(code: "PLN"))
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                    }
+                    
+                    HStack {
+                        Text("Zebrana kwota w euro")
+                        Spacer()
+                        TextField("0", value: $currentSavingsEUR, format: .currency(code: "EUR"))
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                    }
+                }
+                
+                Section(header: Text("Miesięczne odkładanie")) {
+                    HStack {
+                        Text("Pan młody")
+                        Spacer()
+                        TextField("0", value: $groomMonthly, format: .currency(code: "PLN"))
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                    }
+                    HStack {
+                        Text("Pani młoda")
+                        Spacer()
+                        TextField("0", value: $brideMonthly, format: .currency(code: "PLN"))
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                    }
+                }
+                
+                Section {
+                    HStack {
+                        Text("Uzbierana suma do wesela")
+                            .font(.headline)
+                        Spacer()
+                        Text(totalAtWedding, format: .currency(code: "PLN"))
+                            .font(.headline)
+                            .foregroundColor(.green)
+                    }
                 }
             }
-            
-            Section(header: Text("Miesięczne odkładanie")) {
-                HStack {
-                    Text("Pan młody")
-                    Spacer()
-                    TextField("0", value: $groomMonthly, format: .currency(code: "PLN"))
-                        .keyboardType(.decimalPad)
-                        .multilineTextAlignment(.trailing)
-                }
-                HStack {
-                    Text("Pani młoda")
-                    Spacer()
-                    TextField("0", value: $brideMonthly, format: .currency(code: "PLN"))
-                        .keyboardType(.decimalPad)
-                        .multilineTextAlignment(.trailing)
-                }
-            }
-            
-            Section {
-                HStack {
-                    Text("Uzbierana suma do wesela")
-                        .font(.headline)
-                    Spacer()
-                    Text(totalAtWedding, format: .currency(code: "PLN"))
-                        .font(.headline)
-                        .foregroundColor(.green)
-                }
-            }
+            .navigationTitle("Kalkulator oszczędności")
         }
-        .navigationTitle("Kalkulator oszczędności")
     }
 }
 

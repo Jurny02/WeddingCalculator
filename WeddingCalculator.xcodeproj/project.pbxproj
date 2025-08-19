@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		4EC024512E316837005BD203 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E9FE8182E31647B00B737CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4E9FE81F2E31647B00B737CC;
+			remoteInfo = WeddingCalculator;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		4E9FE8202E31647B00B737CC /* WeddingCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeddingCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EC0244D2E316837005BD203 /* WeddingCalculatorTests2.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeddingCalculatorTests2.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +27,22 @@
 			path = WeddingCalculator;
 			sourceTree = "<group>";
 		};
+		4EC0244E2E316837005BD203 /* WeddingCalculatorTests2 */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WeddingCalculatorTests2;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		4E9FE81D2E31647B00B737CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4EC0244A2E316837005BD203 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				4E9FE8222E31647B00B737CC /* WeddingCalculator */,
+				4EC0244E2E316837005BD203 /* WeddingCalculatorTests2 */,
 				4E9FE8212E31647B00B737CC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				4E9FE8202E31647B00B737CC /* WeddingCalculator.app */,
+				4EC0244D2E316837005BD203 /* WeddingCalculatorTests2.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +95,29 @@
 			productReference = 4E9FE8202E31647B00B737CC /* WeddingCalculator.app */;
 			productType = "com.apple.product-type.application";
 		};
+		4EC0244C2E316837005BD203 /* WeddingCalculatorTests2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4EC024532E316837005BD203 /* Build configuration list for PBXNativeTarget "WeddingCalculatorTests2" */;
+			buildPhases = (
+				4EC024492E316837005BD203 /* Sources */,
+				4EC0244A2E316837005BD203 /* Frameworks */,
+				4EC0244B2E316837005BD203 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4EC024522E316837005BD203 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4EC0244E2E316837005BD203 /* WeddingCalculatorTests2 */,
+			);
+			name = WeddingCalculatorTests2;
+			packageProductDependencies = (
+			);
+			productName = WeddingCalculatorTests2;
+			productReference = 4EC0244D2E316837005BD203 /* WeddingCalculatorTests2.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +130,10 @@
 				TargetAttributes = {
 					4E9FE81F2E31647B00B737CC = {
 						CreatedOnToolsVersion = 16.3;
+					};
+					4EC0244C2E316837005BD203 = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 4E9FE81F2E31647B00B737CC;
 					};
 				};
 			};
@@ -100,12 +152,20 @@
 			projectRoot = "";
 			targets = (
 				4E9FE81F2E31647B00B737CC /* WeddingCalculator */,
+				4EC0244C2E316837005BD203 /* WeddingCalculatorTests2 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4E9FE81E2E31647B00B737CC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4EC0244B2E316837005BD203 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +182,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4EC024492E316837005BD203 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4EC024522E316837005BD203 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4E9FE81F2E31647B00B737CC /* WeddingCalculator */;
+			targetProxy = 4EC024512E316837005BD203 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4E9FE82A2E31647C00B737CC /* Debug */ = {
@@ -272,10 +347,11 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 2.4;
 			};
 			name = Debug;
@@ -311,11 +387,53 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Release;
+		};
+		4EC024542E316837005BD203 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3T869NRC3;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bartoszjurczyk.WeddingCalculatorTests2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeddingCalculator.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WeddingCalculator";
+			};
+			name = Debug;
+		};
+		4EC024552E316837005BD203 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3T869NRC3;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bartoszjurczyk.WeddingCalculatorTests2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeddingCalculator.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WeddingCalculator";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -336,6 +454,15 @@
 			buildConfigurations = (
 				4E9FE82D2E31647C00B737CC /* Debug */,
 				4E9FE82E2E31647C00B737CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4EC024532E316837005BD203 /* Build configuration list for PBXNativeTarget "WeddingCalculatorTests2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4EC024542E316837005BD203 /* Debug */,
+				4EC024552E316837005BD203 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

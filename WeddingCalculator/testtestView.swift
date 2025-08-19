@@ -1,18 +1,40 @@
-//
-//  testtestView.swift
-//  WeddingCalculator
-//
-//  Created by Bartosz Jurczyk on 15/08/2025.
-//
-
 import SwiftUI
 
-struct testtestView: View {
+struct RootView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            VStack {
+                Text("Root View")
+                NavigationLink("Go to Next View") {
+                    NextView()
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Root Btn") {
+                        print("Root button tapped")
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct NextView: View {
+    var body: some View {
+        VStack {
+            Text("Next View")
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Next Btn") {
+                    print("Next button tapped")
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    testtestView()
+    RootView()
 }

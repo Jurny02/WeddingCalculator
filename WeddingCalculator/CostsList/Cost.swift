@@ -17,6 +17,10 @@ struct Cost: Identifiable {
     var amountToPay: Double {
         fullAmount - paidAmount
     }
+    
+    static var fakeData: Self {
+        .init(name: "DJ", fullAmount: 6000, paidAmount: 1000)
+    }
 }
 
 extension [Cost] {
