@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct EditGuestView: View {
-    let guest: GuestModel
-    @Environment(GuestListManager.self) private var guestListManager
     @Environment(NavigationManager<GuestNavigation>.self) private var navigationManager
+    @Environment(\.modelContext) var context
+    @Bindable var guest: GuestModel
     
     @State private var name: String
     @State private var numberOfGuests: Int
@@ -29,7 +30,7 @@ struct EditGuestView: View {
     }
     
     init(guest: GuestModel) {
-        self.guest = guest
+        _guest = Bindable(guest)
         
         // Initialize state with current guest values
         self._name = State(initialValue: guest.name)
@@ -76,20 +77,15 @@ struct EditGuestView: View {
     }
     
     private func saveChanges() {
-        let updatedGuest = GuestModel(
-            name: name,
-            confirmed: confirmed,
-            numberOfGuests: numberOfGuests,
-            country: country
-        )
-        
-        guestListManager.updateGuest(updatedGuest)
+        guest.confirmed = confirmed
+        guest.name = name
+        guest.numberOfGuests = numberOfGuests
+        guest.country = country
         navigationManager.navigateToRoot()
     }
 }
 
-#Preview {
-    EditGuestView(guest: GuestModel.fakeData[0])
-        .environment(GuestListManager())
-        .environment(NavigationManager<GuestNavigation>())
-}
+//#Preview {
+//    EditGuestView(guest: .init(GuestModel.fakeData[0]))
+//        .environment(NavigationManager<GuestNavigation>())
+//}

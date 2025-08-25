@@ -9,8 +9,6 @@ import SwiftUI
 
 struct GuestDetailView: View {
     @Environment(NavigationManager<GuestNavigation>.self) private var navigationManager
-    @Environment(GuestListManager.self) var guestListManager
-    @State private var showingDeleteAlert = false
     let guest: GuestModel
     
     var body: some View {
@@ -120,25 +118,6 @@ struct GuestDetailView: View {
         }
         .navigationTitle("Guest Details")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    showingDeleteAlert = true
-                }) {
-                    Image(systemName: "trash")
-                        .foregroundColor(.red)
-                }
-            }
-        }
-        .alert("Delete Guest", isPresented: $showingDeleteAlert) {
-            Button("Cancel", role: .cancel) { }
-            Button("Delete", role: .destructive) {
-                guestListManager.deleteGuest(guest)
-                navigationManager.navigateBack()
-            }
-        } message: {
-            Text("Are you sure you want to delete \(guest.name)? This action cannot be undone.")
-        }
     }
 }
 
@@ -147,5 +126,4 @@ struct GuestDetailView: View {
         GuestDetailView(guest: GuestModel.fakeData[0])
     }
     .environment(NavigationManager<GuestNavigation>())
-    .environment(GuestListManager())
 }

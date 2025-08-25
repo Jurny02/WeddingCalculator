@@ -6,8 +6,8 @@
 //
 
 import Foundation
-
 import SwiftData
+import OSLog
 
 
 @Observable
@@ -43,6 +43,9 @@ class CalculatorState {
     func save() {
         if let encode = try? JSONEncoder().encode(CalculatorStateDTO(from: self)) {
             UserDefaults.standard.set(encode, forKey: Constants.savedStateKey)
+        } else {
+            let logger = Logger()
+            logger.info("Failed to save calculator state")
         }
     }
     

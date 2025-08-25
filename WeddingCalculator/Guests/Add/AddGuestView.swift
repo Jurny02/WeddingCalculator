@@ -9,8 +9,7 @@ import SwiftUI
 
 struct AddGuestView: View {
     @Environment(NavigationManager<GuestNavigation>.self) private var navigationManager
-    @Environment(GuestListManager.self) private var guestListManager
-    
+    @Environment(\.modelContext) var context
     @State private var name: String = ""
     @State private var numberOfGuests: Int = 1
     @State private var country: String = ""
@@ -37,13 +36,6 @@ struct AddGuestView: View {
         }
         .navigationTitle("Add Guest")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("Cancel") {
-                    navigationManager.navigateToRoot()
-                }
-            }
-        }
     }
     
     private func addGuest() {
@@ -53,14 +45,12 @@ struct AddGuestView: View {
             numberOfGuests: numberOfGuests,
             country: country
         )
-        
-        guestListManager.addGuest(newGuest)
+        context.insert(newGuest)
         navigationManager.navigateToRoot()
     }
 }
 
 #Preview {
     AddGuestView()
-        .environment(GuestListManager())
         .environment(NavigationManager<GuestNavigation>())
 }

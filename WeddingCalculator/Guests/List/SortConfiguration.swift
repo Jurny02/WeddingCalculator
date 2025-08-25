@@ -11,10 +11,36 @@ import SwiftUI
 class SortConfiguration {
     var filterOption: GuestFilterOption = .all
     var sortOption: GuestSortOption = .name
-    var sortDirection: SortDirection = .ascending
+    var sortDirection: SortOrder = .forward
     
     func toggleSortDirection() {
         sortDirection = sortDirection.toggle()
+    }
+    
+    var sortDescriptor: SortDescriptor<GuestModel> {
+        switch sortOption {
+        case .name:
+            SortDescriptor(\GuestModel.name, order: sortDirection)
+        case .country:
+            SortDescriptor(\GuestModel.country, order: sortDirection)
+        case .count:
+            SortDescriptor(\GuestModel.numberOfGuests, order: sortDirection)
+        }
+    }
+    
+    var predicate: Predicate<GuestModel> {
+        switch filterOption {
+        case .all:
+            return .true
+        case .confirmed:
+            return #Predicate<GuestModel> { model in
+                model.confirmed
+            }
+        case .notConfirmed:
+            return #Predicate<GuestModel> { model in
+                !model.confirmed
+            }
+        }
     }
 }
 
@@ -30,26 +56,22 @@ enum GuestSortOption: String, CaseIterable {
     case count = "Guest Count"
 }
 
-enum SortDirection {
-    case ascending
-    case descending
-    
+extension SortOrder {
     var icon: String {
         switch self {
-        case .ascending:
+        case .forward:
             return "arrow.up"
-        case .descending:
+        case .reverse:
             return "arrow.down"
         }
     }
     
-    func toggle() -> SortDirection {
+    func toggle() -> SortOrder {
         switch self {
-        case .ascending:
-            return .descending
-        case .descending:
-            return .ascending
+        case .forward:
+            return .reverse
+        case .reverse:
+            return .forward
         }
     }
 }
-

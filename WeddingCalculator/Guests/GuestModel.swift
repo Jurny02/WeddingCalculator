@@ -6,13 +6,22 @@
 //
 
 import Foundation
+import SwiftData
 
-struct GuestModel: Identifiable, Hashable {
-    let id =  UUID()
-    let name: String
-    let confirmed: Bool
-    let numberOfGuests: Int
-    let country: String
+@Model
+class GuestModel: Identifiable, Hashable {
+    var id = UUID()
+    var name: String
+    var confirmed: Bool
+    var numberOfGuests: Int
+    var country: String
+    
+    init(name: String, confirmed: Bool, numberOfGuests: Int, country: String) {
+        self.name = name
+        self.confirmed = confirmed
+        self.numberOfGuests = numberOfGuests
+        self.country = country
+    }
     
     static var fakeData: [GuestModel] = [
         GuestModel(name: "Anna Kowalska", confirmed: true, numberOfGuests: 2, country: "Poland"),
@@ -26,24 +35,19 @@ struct GuestModel: Identifiable, Hashable {
 }
 
 extension [GuestModel] {
-    
-    func apply(sortConfig: SortConfiguration) -> Self {
-        let filterList = switch sortConfig.filterOption {
-        case .all:
-            self
-        case .confirmed:
-             filter { $0.confirmed }
-        case .notConfirmed:
-            filter { !$0.confirmed }
-        }
-        
-        return switch sortConfig.sortOption {
-        case .name:
-            filterList.sorted(by: \.name, direction: sortConfig.sortDirection)
-        case .country:
-            filterList.sorted(by: \.country, direction: sortConfig.sortDirection)
-        case .count:
-            filterList.sorted(by: \.numberOfGuests, direction: sortConfig.sortDirection)
+    func sumOfGuests(guestFilterOption: GuestFilterOption) -> Int {
+        filter {
+            switch guestFilterOption {
+            case .all:
+                true
+            case .confirmed:
+                $0.confirmed
+            case .notConfirmed:
+                $0.confirmed == false
+            }
+        }.reduce(0) { partialResult, guest in
+            partialResult + guest.numberOfGuests
         }
     }
 }
+
