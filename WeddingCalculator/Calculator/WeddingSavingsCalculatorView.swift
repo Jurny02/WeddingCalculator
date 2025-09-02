@@ -10,103 +10,27 @@ struct WeddingSavingsCalculatorView: View {
         case brideMonthly
     }
 
-
     var body: some View {
         NavigationStack {
             VStack {
                 Form {
-                    Section(header: Text("Wedding date")) {
-                        DatePicker("Pick a date", selection: $calculatorManager.calculatorState.weddingDate, displayedComponents: .date)
-                            .datePickerStyle(.compact)
+                    weddingDate
 
-                        Text("Time left: **\(calculatorManager.calculatorState.monthsUntilWedding)** months")
-                            .foregroundColor(.secondary)
-                    }
+                    currentSavings
 
-                    Section(header: Text("Current savings")) {
-                        HStack {
-                            Text("Saved amount")
-                            Spacer()
-                            TextField(
-                                "0",
-                                value: $calculatorManager.calculatorState.currentSavings,
-                                format: .currency(code: "PLN")
-                            )
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                                .focused($focusedField, equals: .currentSavings)
-                                .submitLabel(.done)
-                        }
+                    monthlySavings
 
-                        HStack {
-                            Text("Saved amount in EUR")
-                            Spacer()
-                            TextField(
-                                "0",
-                                value: $calculatorManager.calculatorState.currentSavingsEUR,
-                                format: .currency(code: "EUR")
-                            )
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                                .focused($focusedField, equals: .currentSavingsEUR)
-                                .submitLabel(.done)
-                        }
-                    }
-
-                    Section(header: Text("Monthly saving")) {
-//                        LabeledCurrencyField(
-//                            value: $calculatorManager.calculatorState.groomMonthly,
-//                            label: "Groom",
-//                            currencyCode: "PLN",
-//                            fieldID: focusedField
-//                        )
-                        HStack {
-                            Text("Groom")
-                            Spacer()
-                            TextField(
-                                "0",
-                                value: $calculatorManager.calculatorState.groomMonthly,
-                                format: .currency(code: "PLN")
-                            )
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                                .focused($focusedField, equals: .groomMonthly)
-                                .submitLabel(.done)
-                        }
-                        HStack {
-                            Text("Bride")
-                            Spacer()
-                            TextField(
-                                "0",
-                                value: $calculatorManager.calculatorState.brideMonthly,
-                                format: .currency(code: "PLN")
-                            )
-                                .keyboardType(.decimalPad)
-                                .multilineTextAlignment(.trailing)
-                                .focused($focusedField, equals: .brideMonthly)
-                                .submitLabel(.done)
-                        }
-                    }
-
-                    Section {
-                        HStack {
-                            Text("Saved amount")
-                                .font(.headline)
-                            Spacer()
-                            Text(calculatorState.totalAtWedding, format: .currency(code: "PLN"))
-                                .font(.headline)
-                                .foregroundColor(.green)
-                        }
-                    }
+                    savedAmount
                 }
+                Button("Load data") {
+                }
+                .padding(.horizontal)
+                .buttonStyle(.secondary)
+
                 Button("Save data") {
-//                    do {
-//                        try calculatorState.save()
-//                    } catch {
-//                    }
                 }
-                .buttonStyle(.bordered)
-                .padding()
+                .padding(.horizontal)
+                .buttonStyle(.primary)
             }
             .navigationTitle("Savings calculator")
             .navigationBarTitleDisplayMode(.inline)
@@ -115,10 +39,96 @@ struct WeddingSavingsCalculatorView: View {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
                     Button("Done") { focusedField = nil }
+                        .buttonStyle(.primary)
                 }
             }
             .onAppear {
-//                calculatorState.getData()
+                // calculatorState.getData()
+            }
+        }
+    }
+
+    private var weddingDate: some View {
+        Section(header: Text("Wedding date")) {
+            DatePicker("Pick a date", selection: $calculatorManager.calculatorState.weddingDate, displayedComponents: .date)
+                .datePickerStyle(.compact)
+
+            Text("Time left: **\(calculatorManager.calculatorState.monthsUntilWedding)** months")
+                .foregroundColor(.secondary)
+        }
+    }
+
+    private var currentSavings: some View {
+        Section(header: Text("Current savings")) {
+            HStack {
+                Text("Saved amount")
+                    .padding(.trailing)
+                TextField(
+                    "0",
+                    value: $calculatorManager.calculatorState.currentSavings,
+                    format: .currency(code: "PLN")
+                )
+                .keyboardType(.decimalPad)
+                .multilineTextAlignment(.trailing)
+                .focused($focusedField, equals: .currentSavings)
+                .submitLabel(.done)
+            }
+
+            HStack {
+                Text("Saved amount in EUR")
+                    .padding(.trailing)
+                TextField(
+                    "0",
+                    value: $calculatorManager.calculatorState.currentSavingsEUR,
+                    format: .currency(code: "EUR")
+                )
+                .textFieldStyle(CurrencyTextFieldStyle())
+                .focused($focusedField, equals: .currentSavingsEUR)
+
+            }
+        }
+    }
+
+    private var monthlySavings: some View {
+        Section(header: Text("Monthly saving")) {
+            HStack {
+                Text("Groom")
+                    .padding(.trailing)
+                TextField(
+                    "0",
+                    value: $calculatorManager.calculatorState.groomMonthly,
+                    format: .currency(code: "PLN")
+                )
+                .textFieldStyle(CurrencyTextFieldStyle())
+                .focused($focusedField, equals: .groomMonthly)
+            }
+
+            HStack {
+                Text("Bride")
+                    .padding(.trailing)
+                TextField(
+                    "0",
+                    value: $calculatorManager.calculatorState.brideMonthly,
+                    format: .currency(code: "PLN")
+                )
+                .textFieldStyle(CurrencyTextFieldStyle())
+                .focused($focusedField, equals: .brideMonthly)
+            }
+        }
+    }
+
+    private var savedAmount: some View {
+        Section {
+            HStack {
+                Text("Saved amount")
+                    .font(.headline)
+                Spacer()
+                Text(
+                    calculatorManager.calculatorState.totalAtWedding,
+                    format: .currency(code: "PLN")
+                )
+                .font(.headline)
+                .foregroundColor(.green)
             }
         }
     }

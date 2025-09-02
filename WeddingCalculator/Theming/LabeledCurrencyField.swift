@@ -7,28 +7,16 @@
 
 import SwiftUI
 
-struct LabeledCurrencyField<Value: BinaryFloatingPoint, FocusField: Hashable>: View {
-    @FocusState var focusedField: FocusField?
-    @Binding var value: Value
-    let label: String
-    let currencyCode: String
-    let fieldID: FocusField
+struct CurrencyTextFieldStyle: TextFieldStyle {
 
-    var body: some View {
-        HStack {
-            Text(label)
-                .padding(.trailing)
-            TextField(
-                "0",
-                value: $value,
-                format: .currency(code: currencyCode)
-            )
+    // swiftlint:disable identifier_name
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
             .keyboardType(.decimalPad)
             .multilineTextAlignment(.trailing)
-            .focused($focusedField, equals: fieldID)
             .submitLabel(.done)
+            .padding(.horizontal, 4)
             .frame(maxWidth: .infinity)
-        }
     }
+    // swiftlint:enable identifier_name
 }
-

@@ -20,7 +20,7 @@ class CalculatorManager {
     }
 
     func save() throws {
-        try persistence.save(.init(from: <#T##CalculatorState#>))
+//        try persistence.save(.init(from: /*<#T##CalculatorState#>*/))
     }
 
     func getData() {
