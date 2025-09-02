@@ -11,45 +11,50 @@ import SwiftData
 struct AddCostView: View {
     @Environment(NavigationManager<CostNavigation>.self) private var navigationManager
     @Environment(\.modelContext) var context
-    
+
     @State private var name: String = ""
     @State private var fullAmount: Double = 0
     @State private var paidAmount: Double = 0
-    
+
     private var amountToPay: Double { max(fullAmount - paidAmount, 0) }
-    
+
     private var isInvalid: Bool {
         name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
         fullAmount < 0 ||
         paidAmount < 0 ||
         paidAmount > fullAmount
     }
-    
+
     var body: some View {
         Form {
-            Section("Nazwa") {
+            Section("Name") {
                 TextField("", text: $name)
             }
-            
-            Section("Kwota całkowita") {
+
+            Section("Total amount") {
                 TextField("", value: $fullAmount, format: .currency(code: "PLN"))
                     .keyboardType(.decimalPad)
             }
-            
-            Section("Zapłacono") {
+
+            Section("Paid") {
                 TextField("", value: $paidAmount, format: .currency(code: "PLN"))
                     .keyboardType(.decimalPad)
             }
-            
+
             Section {
-                Button("Dodaj koszt") {
-                    let newCost = Cost(name: name.trimmingCharacters(in: .whitespacesAndNewlines), fullAmount: fullAmount, paidAmount: paidAmount)
+                Button("Add cost") {
+                    let newCost = Cost(
+                        name: name.trimmingCharacters(in: .whitespacesAndNewlines),
+                        fullAmount: fullAmount,
+                        paidAmount: paidAmount
+                    )
                     context.insert(newCost)
+                    navigationManager.navigateBack()
                 }
                 .disabled(isInvalid)
             }
         }
-        .navigationTitle("Dodaj koszt")
+        .navigationTitle("Add cost")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -67,5 +72,3 @@ private extension DetailRow {
             .environment(NavigationManager<GuestNavigation>())
     }
 }
-
-

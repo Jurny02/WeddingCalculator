@@ -18,17 +18,17 @@ struct CostCell: View {
                 Text(cost.fullAmount, format: .currency(code: "PLN"))
             }
             .padding(.bottom, 2)
-            
+
             HStack {
-                Text("Zapłacono:")
+                Text("Paid:")
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(cost.paidAmount, format: .currency(code: "PLN"))
                     .foregroundColor(.secondary)
             }
-            
+
             HStack {
-                Text("Pozostało:")
+                Text("Remaining:")
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(cost.amountToPay, format: .currency(code: "PLN"))

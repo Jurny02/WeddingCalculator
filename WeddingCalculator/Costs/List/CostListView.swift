@@ -5,19 +5,19 @@ struct CostListView: View {
     @Environment(\.modelContext) var context
     @State private var navigationManager = NavigationManager<CostNavigation>()
     @Query(sort: \Cost.fullAmount) private var allCosts: [Cost]
-    
+
     var totalRemaining: Double {
         allCosts.reduce(0) { $0 + $1.amountToPay }
     }
-    
+
     var body: some View {
         NavigationStack(path: $navigationManager.navigationPath) {
             VStack(spacing: 0) {
                 if allCosts.isEmpty {
                     ContentUnavailableView {
-                        Label("No Guests", systemImage: "exclamationmark.circle.fill")
+                        Label("No costs", systemImage: "exclamationmark.circle.fill")
                     } description: {
-                        Text("New mails you receive will appear here.")
+                        Text("Your costs will appear here.")
                     }
                 } else {
                     List {
@@ -35,10 +35,9 @@ struct CostListView: View {
                         }
                     }
                     .listStyle(.insetGrouped)
-                    
-                    // Suma pozostała do zapłaty
+
                     HStack {
-                        Text("Suma do zapłaty:")
+                        Text("Total remaining:")
                             .font(.headline)
                         Spacer()
                         Text(totalRemaining, format: .currency(code: "PLN"))
@@ -50,7 +49,7 @@ struct CostListView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("Wydatki")
+            .navigationTitle("Costs")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -75,8 +74,8 @@ struct CostListView: View {
     }
 }
 
-struct CostListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(startdestination: .main)
-    }
+#Preview {
+    CostListView()
+        .modelContainer(for: [Cost.self, GuestModel.self])
+        .environment(NavigationManager<GuestNavigation>())
 }

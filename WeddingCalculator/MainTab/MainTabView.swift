@@ -7,26 +7,27 @@
 
 import SwiftUI
 
-struct MainTabView: View {
+struct MainTabView : View {
     var body: some View {
         TabView {
-            GuestListView()
+
+            GuestListView( )
                 .tabItem {
-                    Label("goscie", systemImage: "list.dash")
+                    Label("Guests", systemImage: "person.2.fill")
                 }
             WeddingSavingsCalculatorView()
                 .tabItem {
-                    Label("calculator", systemImage: "list.dash")
+                    Label("Calculator", systemImage: "equal")
                 }
-            
+
             CostListView()
                 .tabItem {
-                    Label("Order", systemImage: "square.and.pencil")
+                    Label("Costs", systemImage: "creditcard")
                 }
         }
     }
 }
 
 #Preview {
-    ContentView(startdestination: .main)
+    ContentView()
 }

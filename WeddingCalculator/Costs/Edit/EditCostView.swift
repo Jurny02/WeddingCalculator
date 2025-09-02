@@ -14,9 +14,9 @@ struct EditCostView: View {
     private var hasNoChanges: Bool {
         cost == initialCost
     }
-    
+
     private var amountToPay: Double { max(cost.fullAmount - cost.paidAmount, 0) }
-    
+
     private var isInvalid: Bool {
         cost.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
         cost.fullAmount < 0 ||
@@ -24,20 +24,20 @@ struct EditCostView: View {
         cost.paidAmount > cost.fullAmount ||
         hasNoChanges
     }
-    
+
     var body: some View {
         Form {
-            Section("Informacje o koszcie") {
-                TextField("Nazwa", text: $cost.name)
-                
-                TextField("Kwota całkowita", value: $cost.fullAmount, format: .currency(code: "PLN"))
+            Section("Cost information") {
+                TextField("Name", text: $cost.name)
+
+                TextField("Total amount", value: $cost.fullAmount, format: .currency(code: "PLN"))
                     .keyboardType(.decimalPad)
-                
-                TextField("Zapłacono", value: $cost.paidAmount, format: .currency(code: "PLN"))
+
+                TextField("Paid", value: $cost.paidAmount, format: .currency(code: "PLN"))
                     .keyboardType(.decimalPad)
             }
         }
-        .navigationTitle("Edytuj koszt")
+        .navigationTitle("Edit cost")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -53,5 +53,3 @@ private extension DetailRow {
         EditCostView(cost: .fakeData, initialCost: .fakeData)
     }
 }
-
-

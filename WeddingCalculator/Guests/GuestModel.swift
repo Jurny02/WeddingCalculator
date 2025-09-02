@@ -9,21 +9,22 @@ import Foundation
 import SwiftData
 
 @Model
-class GuestModel: Identifiable, Hashable {
+final class GuestModel: Identifiable, Hashable {
     var id = UUID()
     var name: String
     var confirmed: Bool
     var numberOfGuests: Int
     var country: String
-    
+
     init(name: String, confirmed: Bool, numberOfGuests: Int, country: String) {
         self.name = name
         self.confirmed = confirmed
         self.numberOfGuests = numberOfGuests
         self.country = country
     }
-    
-    static var fakeData: [GuestModel] = [
+
+#if DEBUG
+    nonisolated(unsafe) static let fakeData: [GuestModel] = [
         GuestModel(name: "Anna Kowalska", confirmed: true, numberOfGuests: 2, country: "Poland"),
         GuestModel(name: "John Smith", confirmed: false, numberOfGuests: 1, country: "United Kingdom"),
         GuestModel(name: "Maria Rossi", confirmed: true, numberOfGuests: 3, country: "Italy"),
@@ -32,6 +33,7 @@ class GuestModel: Identifiable, Hashable {
         GuestModel(name: "Liam O'Connor", confirmed: true, numberOfGuests: 1, country: "Ireland"),
         GuestModel(name: "Yuki Tanaka", confirmed: false, numberOfGuests: 2, country: "Japan")
     ]
+#endif
 }
 
 extension [GuestModel] {
@@ -50,4 +52,3 @@ extension [GuestModel] {
         }
     }
 }
-

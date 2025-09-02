@@ -14,19 +14,19 @@ struct AddGuestView: View {
     @State private var numberOfGuests: Int = 1
     @State private var country: String = ""
     @State private var confirmed: Bool = false
-    
+
     var body: some View {
         Form {
             Section("Guest Information") {
                 TextField("Name", text: $name)
-                
+
                 Stepper("Number of guests: \(numberOfGuests)", value: $numberOfGuests, in: 1...10)
-                
+
                 TextField("Country", text: $country)
-                
+
                 Toggle("Confirmed", isOn: $confirmed)
             }
-            
+
             Section {
                 Button("Add Guest") {
                     addGuest()
@@ -37,7 +37,7 @@ struct AddGuestView: View {
         .navigationTitle("Add Guest")
         .navigationBarTitleDisplayMode(.inline)
     }
-    
+
     private func addGuest() {
         let newGuest = GuestModel(
             name: name,

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GuestCell: View {
     let guest: GuestModel
-    
+
     var body: some View {
         HStack(spacing: 16) {
             VStack(alignment: .leading, spacing: 4) {
@@ -19,9 +19,9 @@ struct GuestCell: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
-            
+
             Spacer()
-            
+
             if guest.confirmed {
                 Image(systemName: "checkmark.seal.fill")
                     .foregroundColor(.green)
@@ -32,13 +32,27 @@ struct GuestCell: View {
         }
         .padding(.vertical, 8)
         .contentShape(Rectangle())
-        
+
     }
 }
 
 #Preview {
     VStack {
-        GuestCell(guest: .init(name: "Bartosz Jurczyk", confirmed: true, numberOfGuests: 4, country: "Polska"))
-        GuestCell(guest: .init(name: "Bartosz Jurczyk", confirmed: false, numberOfGuests: 3, country: "Polska"))
+        GuestCell(
+            guest: .init(
+                name: "Bartosz Jurczyk",
+                confirmed: true,
+                numberOfGuests: 4,
+                country: "Polska"
+            )
+        )
+        GuestCell(
+            guest: .init(
+                name: "Bartosz Jurczyk",
+                confirmed: false,
+                numberOfGuests: 3,
+                country: "Polska"
+            )
+        )
     }
 }

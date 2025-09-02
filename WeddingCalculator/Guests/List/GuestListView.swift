@@ -10,7 +10,7 @@ import SwiftUI
 struct GuestListView: View {
     @State private var navigationManager = NavigationManager<GuestNavigation>()
     @State private var sortConfiguration = SortConfiguration()
-    
+
     var body: some View {
         NavigationStack(path: $navigationManager.navigationPath) {
             GuestListQuery(sortConfiguation: $sortConfiguration)
@@ -22,7 +22,7 @@ struct GuestListView: View {
         }
         .environment(navigationManager)
     }
-    
+
     func viewFor(_ destination: GuestNavigation) -> some View {
         ZStack {
             switch destination {

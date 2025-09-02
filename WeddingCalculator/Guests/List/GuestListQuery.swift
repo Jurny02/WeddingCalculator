@@ -14,7 +14,7 @@ struct GuestListQuery: View {
     @Query private var guestList: [GuestModel]
     @Query private var allGuestList: [GuestModel]
     @Binding var sortConfiguration: SortConfiguration
-    
+
     init(sortConfiguation: Binding<SortConfiguration>) {
         let sortValue = sortConfiguation.wrappedValue
         _guestList = Query(
@@ -23,7 +23,7 @@ struct GuestListQuery: View {
         )
         _sortConfiguration = sortConfiguation
     }
-    
+
     var body: some View {
         VStack(spacing: .zero) {
             filterView
@@ -72,28 +72,28 @@ struct GuestListQuery: View {
                             .foregroundColor(.blue)
                     }
                 }
-                
+
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
+                    Button {
                         sortConfiguration.toggleSortDirection()
-                    }) {
+                    } label: {
                         Image(systemName: sortConfiguration.sortDirection.icon)
                             .foregroundColor(.blue)
                     }
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
+                Button {
                     navigationManager.navigate(to: .addGuest)
-                }) {
+                } label: {
                     Image(systemName: "plus")
                         .foregroundColor(.blue)
                 }
             }
         }
     }
-    
-    private var filterView : some View {
+
+    private var filterView: some View {
         VStack(spacing: 12) {
             // Filter Picker
             Picker("Filter", selection: $sortConfiguration.filterOption) {
@@ -103,15 +103,15 @@ struct GuestListQuery: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
-            
+
             // Filter Summary
             HStack {
                 Text("Showing \(guestList.count)/\(allGuestList.count) entries")
-                
+
                 Spacer()
-                
+
                 Text("Showing \(guestList.sumOfGuests(guestFilterOption: sortConfiguration.filterOption))/\(allGuestList.sumOfGuests(guestFilterOption: .all)) of all guests")
-                
+
             }
             .font(.caption)
             .foregroundColor(.secondary)
@@ -120,7 +120,7 @@ struct GuestListQuery: View {
         .padding(.vertical, 8)
         .background(Color(.systemGray6))
     }
-    
+
     private func sortIcon(for option: GuestSortOption) -> String {
         switch option {
         case .name:

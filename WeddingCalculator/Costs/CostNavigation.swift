@@ -4,7 +4,7 @@ enum CostNavigation: Hashable {
     case addCost
     case costDetail(Cost)
     case editCost(Cost)
-    
+
     var id: String {
         switch self {
         case .addCost:
@@ -21,9 +21,9 @@ enum CostNavigation: Hashable {
         switch self {
         case .addCost:
             hasher.combine("addCost")
-        case .costDetail(_):
+        case .costDetail:
             hasher.combine("costDetail")
-        case .editCost(_):
+        case .editCost:
             hasher.combine("editCost")
         }
     }

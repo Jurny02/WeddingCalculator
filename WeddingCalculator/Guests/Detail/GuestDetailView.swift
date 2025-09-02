@@ -10,7 +10,7 @@ import SwiftUI
 struct GuestDetailView: View {
     @Environment(NavigationManager<GuestNavigation>.self) private var navigationManager
     let guest: GuestModel
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -25,20 +25,20 @@ struct GuestDetailView: View {
                                 .font(.system(size: 40, weight: .bold))
                                 .foregroundColor(.white)
                         )
-                    
+
                     // Guest Name
                     Text(guest.name)
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
-                    
+
                     // Status Text
                     Text(guest.confirmed ? "Confirmed" : "Not Confirmed")
                         .font(.title2)
                         .foregroundColor(guest.confirmed ? .green : .red)
                         .fontWeight(.semibold)
                 }
-                
+
                 // Details Section
                 VStack(spacing: 20) {
                     DetailRow(
@@ -46,13 +46,13 @@ struct GuestDetailView: View {
                         title: "Number of Guests",
                         value: "\(guest.numberOfGuests) guest\(guest.numberOfGuests > 1 ? "s" : "")"
                     )
-                    
+
                     DetailRow(
                         icon: "flag.fill",
                         title: "Country",
                         value: guest.country
                     )
-                    
+
                     DetailRow(
                         icon: "calendar.badge.clock",
                         title: "Response Status",
@@ -60,13 +60,13 @@ struct GuestDetailView: View {
                     )
                 }
                 .padding(.horizontal)
-                
+
                 // Summary Card
                 VStack(spacing: 12) {
                     Text("Summary")
                         .font(.headline)
                         .foregroundColor(.secondary)
-                    
+
                     HStack(spacing: 20) {
                         VStack {
                             Text("\(guest.numberOfGuests)")
@@ -76,10 +76,10 @@ struct GuestDetailView: View {
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
-                        
+
                         Divider()
                             .frame(height: 40)
-                        
+
                         VStack {
                             Text(guest.confirmed ? "✓" : "?")
                                 .font(.title)
@@ -95,12 +95,12 @@ struct GuestDetailView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(12)
                 .padding(.horizontal)
-                
+
                 // Action Buttons
                 VStack(spacing: 16) {
-                    Button(action: {
+                    Button {
                         navigationManager.navigate(to: .editGuest(guest))
-                    }) {
+                    } label: {
                         HStack {
                             Image(systemName: "pencil")
                             Text("Edit Guest")

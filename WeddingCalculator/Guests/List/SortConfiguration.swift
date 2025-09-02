@@ -12,11 +12,11 @@ class SortConfiguration {
     var filterOption: GuestFilterOption = .all
     var sortOption: GuestSortOption = .name
     var sortDirection: SortOrder = .forward
-    
+
     func toggleSortDirection() {
         sortDirection = sortDirection.toggle()
     }
-    
+
     var sortDescriptor: SortDescriptor<GuestModel> {
         switch sortOption {
         case .name:
@@ -27,7 +27,7 @@ class SortConfiguration {
             SortDescriptor(\GuestModel.numberOfGuests, order: sortDirection)
         }
     }
-    
+
     var predicate: Predicate<GuestModel> {
         switch filterOption {
         case .all:
@@ -65,7 +65,7 @@ extension SortOrder {
             return "arrow.down"
         }
     }
-    
+
     func toggle() -> SortOrder {
         switch self {
         case .forward:

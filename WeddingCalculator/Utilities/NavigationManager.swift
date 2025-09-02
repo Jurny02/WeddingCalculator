@@ -11,18 +11,18 @@ import SwiftUI
 @MainActor @Observable
 class NavigationManager<T> {
     var navigationPath: [T] = []
-    
+
     // MARK: - Navigation Methods
     func navigate(to destination: T) {
         navigationPath.append(destination)
     }
-    
+
     func navigateBack() {
         if !navigationPath.isEmpty {
             navigationPath.removeLast()
         }
     }
-    
+
     func navigateToRoot() {
         navigationPath.removeAll()
     }

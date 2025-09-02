@@ -11,7 +11,7 @@ enum GuestNavigation: Hashable {
     case addGuest
     case guestDetail(GuestModel)
     case editGuest(GuestModel)
-    
+
     var id: String {
         switch self {
         case .addGuest:
@@ -22,7 +22,7 @@ enum GuestNavigation: Hashable {
             return "editGuest_\(guest.id)"
         }
     }
-    
+
     // Hashable conformance
     func hash(into hasher: inout Hasher) {
         switch self {
@@ -36,7 +36,7 @@ enum GuestNavigation: Hashable {
             hasher.combine(guest.id)
         }
     }
-    
+
     // Equatable conformance
     static func == (lhs: GuestNavigation, rhs: GuestNavigation) -> Bool {
         switch (lhs, rhs) {

@@ -11,14 +11,14 @@ struct DetailRow: View {
     let icon: String
     let title: String
     let value: String
-    
+
     var body: some View {
         HStack(spacing: 16) {
             Image(systemName: icon)
                 .font(.title2)
                 .foregroundColor(.blue)
                 .frame(width: 30)
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
                     .font(.caption)
@@ -28,7 +28,7 @@ struct DetailRow: View {
                     .font(.body)
                     .fontWeight(.medium)
             }
-            
+
             Spacer()
         }
         .padding()
