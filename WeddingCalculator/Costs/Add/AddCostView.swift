@@ -27,10 +27,25 @@ struct AddCostView: View {
 
     var body: some View {
         Form {
-            Section("Name") {
-                TextField("", text: $name)
+            HStack {
+                Text("Cost name: ")
+                Spacer()
+                TextField("Name", text: $name)
+                    .padding(.leading)
             }
-
+            
+            HStack {
+                Text("Cost name: ")
+                Spacer()
+                TextField("Name", text: $name)
+                    .padding(.leading)
+            }
+            HStack {
+                Text("Cost name: ")
+                Spacer()
+                TextField("Name", text: $name)
+                    .padding(.leading)
+            }
             Section("Total amount") {
                 TextField("", value: $fullAmount, format: .currency(code: "PLN"))
                     .keyboardType(.decimalPad)
@@ -69,6 +84,6 @@ private extension DetailRow {
     NavigationStack {
         AddCostView()
             .modelContainer(for: [Cost.self, GuestModel.self])
-            .environment(NavigationManager<GuestNavigation>())
+            .environment(NavigationManager<CostNavigation>())
     }
 }

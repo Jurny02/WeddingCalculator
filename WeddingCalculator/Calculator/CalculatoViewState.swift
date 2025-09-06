@@ -10,6 +10,6 @@ import Foundation
 @Observable
 class CalculatorViewState {
     var isSaving: Bool = false
-    var errorMessage: String? = nil
+    var errorMessage: String?
     var showAlert: Bool { errorMessage != nil }
 }

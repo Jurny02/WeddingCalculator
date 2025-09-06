@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddGuestView: View {
+    @Environment(SnackbarManager.self) var snackbarManager
     @Environment(NavigationManager<GuestNavigation>.self) private var navigationManager
     @Environment(\.modelContext) var context
     @State private var name: String = ""
@@ -25,6 +26,9 @@ struct AddGuestView: View {
                 TextField("Country", text: $country)
 
                 Toggle("Confirmed", isOn: $confirmed)
+                Button("TEST"){
+                    snackbarManager.show(.success(message: "ESSA"))
+                }
             }
 
             Section {

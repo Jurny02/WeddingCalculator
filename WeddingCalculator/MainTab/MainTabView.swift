@@ -10,7 +10,6 @@ import SwiftUI
 struct MainTabView : View {
     var body: some View {
         TabView {
-
             GuestListView( )
                 .tabItem {
                     Label("Guests", systemImage: "person.2.fill")
@@ -25,9 +24,11 @@ struct MainTabView : View {
                     Label("Costs", systemImage: "creditcard")
                 }
         }
+        .snackbar()
     }
 }
 
 #Preview {
     ContentView()
+        .environment(SnackbarManager())
 }

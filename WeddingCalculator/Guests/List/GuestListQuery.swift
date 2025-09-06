@@ -132,3 +132,9 @@ struct GuestListQuery: View {
         }
     }
 }
+
+#Preview {
+    GuestListView()
+        .environment(NavigationManager<GuestNavigation>())
+        .modelContainer(for: [Cost.self, GuestModel.self])
+}

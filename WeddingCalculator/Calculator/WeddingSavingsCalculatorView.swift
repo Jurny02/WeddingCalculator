@@ -1,33 +1,44 @@
 import SwiftUI
 
 struct WeddingSavingsCalculatorView: View {
-    @State private var calculatorManager = CalculatorManager()
-    @FocusState private var focusedField: FocusedField?
     private enum FocusedField: Hashable {
         case currentSavings
         case currentSavingsEUR
         case groomMonthly
         case brideMonthly
     }
+    @State private var calculatorManager = CalculatorManager()
+    @FocusState private var focusedField: FocusedField?
+    @Environment(SnackbarManager.self) private var snackbarManager
 
     var body: some View {
         NavigationStack {
             VStack {
                 Form {
                     weddingDate
-
                     currentSavings
-
                     monthlySavings
-
                     savedAmount
                 }
+
                 Button("Load data") {
+                    do throws (CalculatorManager.CMError) {
+                        try calculatorManager.getData()
+                        snackbarManager.show(.success(message: "Loading successful"))
+                    } catch {
+                         handleDataError(error)
+                    }
                 }
                 .padding(.horizontal)
                 .buttonStyle(.secondary)
 
                 Button("Save data") {
+                    do throws (CalculatorManager.CMError) {
+                        try calculatorManager.save()
+                        snackbarManager.show(.success(message: "Saving successful"))
+                    } catch {
+                        handleDataError(error)
+                    }
                 }
                 .padding(.horizontal)
                 .buttonStyle(.primary)
@@ -39,11 +50,7 @@ struct WeddingSavingsCalculatorView: View {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
                     Button("Done") { focusedField = nil }
-                        .buttonStyle(.primary)
                 }
-            }
-            .onAppear {
-                // calculatorState.getData()
             }
         }
     }
@@ -132,12 +139,22 @@ struct WeddingSavingsCalculatorView: View {
             }
         }
     }
+
+    private func handleDataError(_ error: CalculatorManager.CMError) {
+        switch error {
+        case .saveFailed:
+            snackbarManager.show(.error(message: "Saving data failed"))
+        case .loadFailed:
+            snackbarManager.show(.error(message: "Loading data failed"))
+        }
+    }
 }
 
 struct WeddingSavingsCalculatorView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             WeddingSavingsCalculatorView()
+                .environment(SnackbarManager())
         }
     }
 }

@@ -11,6 +11,7 @@ import OSLog
 
 @Observable
 class CalculatorState {
+    let dateProvider: DateProvider
     var weddingDate: Date
     var currentSavings: Double
     var currentSavingsEUR: Double
@@ -19,7 +20,7 @@ class CalculatorState {
 
     var monthsUntilWedding: Int {
         let calendar = Calendar.current
-        let components = calendar.dateComponents([.month], from: Date(), to: weddingDate)
+        let components = calendar.dateComponents([.month], from: dateProvider.now(), to: weddingDate)
         return max(components.month ?? 0, 0)
     }
 
@@ -30,20 +31,21 @@ class CalculatorState {
     }
 
     init(
-        date: Date = Date(),
+        dateProvider: DateProvider = SystemDateProvider(),
         currentSavings: Double = 0,
         currentSavingsEUR: Double = 0,
         groomMonthly: Double = 0,
         brideMonthly: Double = 0
     ) {
-        self.weddingDate = date
+        self.dateProvider = dateProvider
+        self.weddingDate = dateProvider.now()
         self.currentSavings = currentSavings
         self.currentSavingsEUR = currentSavingsEUR
         self.groomMonthly = groomMonthly
         self.brideMonthly = brideMonthly
     }
 
-    private func update(with state: CalculatorStateDTO) {
+    func update(with state: CalculatorStateDTO) {
         weddingDate = state.date
         currentSavings = state.currentSavings
         currentSavingsEUR = state.currentSavingsEUR

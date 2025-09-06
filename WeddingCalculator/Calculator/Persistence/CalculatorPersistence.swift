@@ -23,7 +23,7 @@ class DefaultCalculatorPersistence: CalculatorPersistence {
         case savingError
     }
 
-    private let logger = Logger(subsystem: "iOS", category: "DefaultCalculatorPersistence")
+    private let logger = Logger(subsystem: "com.bartoszjurczyk.WeddingCalculator", category: "DefaultCalculatorPersistence")
     private let userDefaults = UserDefaults.standard
 
     func get() throws(CPError) -> CalculatorStateDTO {
@@ -42,7 +42,6 @@ class DefaultCalculatorPersistence: CalculatorPersistence {
             logger.error("Failed to save calculator state")
             throw .savingError
         }
-
         userDefaults.set(encode, forKey: Constants.savedStateKey)
     }
 }

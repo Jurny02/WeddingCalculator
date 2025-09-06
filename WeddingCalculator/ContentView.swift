@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var snackbarManager = SnackbarManager()
     var body: some View {
         MainTabView()
+            .environment(snackbarManager)
     }
 }
 
 #Preview {
     ContentView()
+        .environment(SnackbarManager())
 }
