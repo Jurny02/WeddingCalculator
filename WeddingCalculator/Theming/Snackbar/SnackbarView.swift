@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct SnackBarView: View {
-    let style: SnackBarConfig
+struct SnackbarView: View {
+    let style: SnackbarConfig
 
     var body: some View {
         HStack(spacing: 12) {
@@ -27,19 +27,19 @@ struct SnackBarView: View {
     VStack(
         spacing: 20
     ) {
-        SnackBarView(
+        SnackbarView(
             style: .success(message: "Dane zapisane poprawnie")
         )
 
-        SnackBarView(
+        SnackbarView(
             style: .error(message: "Dane zapisane poprawnie")
         )
 
-        SnackBarView(
+        SnackbarView(
             style: .info(message: "Dane zapisane poprawnie")
         )
 
-        SnackBarView(
+        SnackbarView(
             style: .warning(message: "Dane zapisane poprawnie")
         )
     }

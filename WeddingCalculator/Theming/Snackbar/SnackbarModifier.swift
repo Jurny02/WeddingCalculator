@@ -16,7 +16,7 @@ struct SnackbarModifier: ViewModifier {
 
             VStack {
                 if let config = manager.current {
-                    SnackBarView( style: config)
+                    SnackbarView( style: config)
                         .padding(.bottom)
                         .transition(.move(edge: .top).combined(with: .opacity))
                         .animation(.easeInOut, value: manager.current)

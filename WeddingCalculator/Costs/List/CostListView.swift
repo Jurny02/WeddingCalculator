@@ -66,7 +66,7 @@ struct CostListView: View {
                 case .costDetail(let cost):
                     CostDetailView(cost: cost)
                 case .editCost(let cost):
-                    EditCostView(cost: cost, initialCost: cost)
+                    EditCostView(cost: cost)
                 }
             }
         }
@@ -76,6 +76,5 @@ struct CostListView: View {
 
 #Preview {
     CostListView()
-        .modelContainer(for: [Cost.self, GuestModel.self])
-        .environment(NavigationManager<GuestNavigation>())
+        .appEnvironment()
 }

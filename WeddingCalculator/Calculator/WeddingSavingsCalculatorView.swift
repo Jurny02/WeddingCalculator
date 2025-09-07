@@ -26,7 +26,7 @@ struct WeddingSavingsCalculatorView: View {
                         try calculatorManager.getData()
                         snackbarManager.show(.success(message: "Loading successful"))
                     } catch {
-                         handleDataError(error)
+                        handleDataError(error)
                     }
                 }
                 .padding(.horizontal)
@@ -81,80 +81,54 @@ struct WeddingSavingsCalculatorView: View {
                 .submitLabel(.done)
             }
 
-            HStack {
-                Text("Saved amount in EUR")
-                    .padding(.trailing)
-                TextField(
-                    "0",
-                    value: $calculatorManager.calculatorState.currentSavingsEUR,
-                    format: .currency(code: "EUR")
-                )
-                .textFieldStyle(CurrencyTextFieldStyle())
-                .focused($focusedField, equals: .currentSavingsEUR)
-
-            }
+            LabeldCurrencyTextField(
+                title: "Saved amount in EUR",
+                placeholder: "EUR",
+                value: $calculatorManager.calculatorState.currentSavingsEUR,
+                currencyCode: "EUR"
+            )
+            .focused($focusedField, equals: .currentSavingsEUR)
         }
     }
 
     private var monthlySavings: some View {
         Section(header: Text("Monthly saving")) {
-            HStack {
-                Text("Groom")
-                    .padding(.trailing)
-                TextField(
-                    "0",
-                    value: $calculatorManager.calculatorState.groomMonthly,
-                    format: .currency(code: "PLN")
-                )
-                .textFieldStyle(CurrencyTextFieldStyle())
-                .focused($focusedField, equals: .groomMonthly)
-            }
+            LabeldCurrencyTextField(
+                title: "Groom",
+                placeholder: "",
+                value: $calculatorManager.calculatorState.groomMonthly
+            )
+            .focused($focusedField, equals: .groomMonthly)
 
-            HStack {
-                Text("Bride")
-                    .padding(.trailing)
-                TextField(
-                    "0",
-                    value: $calculatorManager.calculatorState.brideMonthly,
-                    format: .currency(code: "PLN")
-                )
-                .textFieldStyle(CurrencyTextFieldStyle())
-                .focused($focusedField, equals: .brideMonthly)
-            }
+            LabeldCurrencyTextField(
+                title: "Bride",
+                placeholder: "",
+                value: $calculatorManager.calculatorState.brideMonthly
+            )
+            .focused($focusedField, equals: .brideMonthly)
         }
     }
 
     private var savedAmount: some View {
         Section {
-            HStack {
-                Text("Saved amount")
-                    .font(.headline)
-                Spacer()
-                Text(
-                    calculatorManager.calculatorState.totalAtWedding,
-                    format: .currency(code: "PLN")
-                )
-                .font(.headline)
-                .foregroundColor(.green)
-            }
+            LabeldCurrencyTextField(
+                title: "Saved amount",
+                placeholder: "",
+                value: .constant(calculatorManager.calculatorState.totalAtWedding)
+            )
         }
     }
 
     private func handleDataError(_ error: CalculatorManager.CMError) {
-        switch error {
-        case .saveFailed:
-            snackbarManager.show(.error(message: "Saving data failed"))
-        case .loadFailed:
-            snackbarManager.show(.error(message: "Loading data failed"))
-        }
+        snackbarManager.handle(event: error)
     }
 }
 
-struct WeddingSavingsCalculatorView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            WeddingSavingsCalculatorView()
-                .environment(SnackbarManager())
-        }
+#if DEBUG
+#Preview {
+    NavigationStack {
+        WeddingSavingsCalculatorView()
+            .appEnvironment()
     }
 }
+#endif

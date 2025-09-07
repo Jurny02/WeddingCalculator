@@ -9,81 +9,60 @@ import SwiftUI
 import SwiftData
 
 struct AddCostView: View {
+    @Environment(SnackbarManager.self) private var snackbarManager
     @Environment(NavigationManager<CostNavigation>.self) private var navigationManager
     @Environment(\.modelContext) var context
 
-    @State private var name: String = ""
-    @State private var fullAmount: Double = 0
-    @State private var paidAmount: Double = 0
-
-    private var amountToPay: Double { max(fullAmount - paidAmount, 0) }
-
-    private var isInvalid: Bool {
-        name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
-        fullAmount < 0 ||
-        paidAmount < 0 ||
-        paidAmount > fullAmount
-    }
+    @State private var newCostModel = NewCostModel()
 
     var body: some View {
         Form {
-            HStack {
-                Text("Cost name: ")
-                Spacer()
-                TextField("Name", text: $name)
-                    .padding(.leading)
-            }
-            
-            HStack {
-                Text("Cost name: ")
-                Spacer()
-                TextField("Name", text: $name)
-                    .padding(.leading)
-            }
-            HStack {
-                Text("Cost name: ")
-                Spacer()
-                TextField("Name", text: $name)
-                    .padding(.leading)
-            }
-            Section("Total amount") {
-                TextField("", value: $fullAmount, format: .currency(code: "PLN"))
-                    .keyboardType(.decimalPad)
-            }
-
-            Section("Paid") {
-                TextField("", value: $paidAmount, format: .currency(code: "PLN"))
-                    .keyboardType(.decimalPad)
-            }
+            textFields
 
             Section {
                 Button("Add cost") {
-                    let newCost = Cost(
-                        name: name.trimmingCharacters(in: .whitespacesAndNewlines),
-                        fullAmount: fullAmount,
-                        paidAmount: paidAmount
-                    )
-                    context.insert(newCost)
-                    navigationManager.navigateBack()
+                    do {
+                        try newCostModel.addCostToContext(context: context)
+                        navigationManager.navigateBack()
+                    } catch {
+
+                    }
                 }
-                .disabled(isInvalid)
+                .disabled(newCostModel.isInvalid)
             }
         }
         .navigationTitle("Add cost")
         .navigationBarTitleDisplayMode(.inline)
     }
-}
 
-private extension DetailRow {
-    init(icon: String, title: String, value: Double, format: FloatingPointFormatStyle<Double>) {
-        self.init(icon: icon, title: title, value: value.formatted(format))
+    private var textFields: some View {
+        Section {
+            LabeledTextField(
+                title: "Cost name: ",
+                placeholder: "Name",
+                value: $newCostModel.name
+            )
+
+            LabeldCurrencyTextField(
+                title: "Total amount: ",
+                placeholder: "Amount",
+                value: $newCostModel.fullAmount
+            )
+
+            LabeldCurrencyTextField(
+                title: "Total paid: ",
+                placeholder: "Paid",
+                value: $newCostModel.paidAmount
+            )
+        }
     }
 }
 
+#if DEBUG
 #Preview {
     NavigationStack {
         AddCostView()
-            .modelContainer(for: [Cost.self, GuestModel.self])
-            .environment(NavigationManager<CostNavigation>())
+            .appEnvironment()
     }
 }
+#endif

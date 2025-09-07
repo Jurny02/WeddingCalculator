@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum SnackBarConfig: Equatable {
+enum SnackbarConfig: Equatable {
     case success(message: String), error(message: String), warning(message: String), info(message: String)
 
     var backgroundColor: Color {

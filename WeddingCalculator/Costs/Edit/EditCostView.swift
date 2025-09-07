@@ -8,48 +8,58 @@
 import SwiftUI
 
 struct EditCostView: View {
+    @Environment(NavigationManager<CostNavigation>.self) private var navigationManager
     @Bindable var cost: Cost
-    let initialCost: Cost
+    @State private var newCostModel: NewCostModel
 
-    private var hasNoChanges: Bool {
-        cost == initialCost
-    }
-
-    private var amountToPay: Double { max(cost.fullAmount - cost.paidAmount, 0) }
-
-    private var isInvalid: Bool {
-        cost.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
-        cost.fullAmount < 0 ||
-        cost.paidAmount < 0 ||
-        cost.paidAmount > cost.fullAmount ||
-        hasNoChanges
+    init(cost: Cost) {
+        _cost = .init(cost)
+        self.newCostModel = .init(form: cost)
     }
 
     var body: some View {
         Form {
             Section("Cost information") {
-                TextField("Name", text: $cost.name)
+                LabeledTextField(
+                    title: "Name",
+                    placeholder: "Name",
+                    value: $newCostModel.name
+                )
 
-                TextField("Total amount", value: $cost.fullAmount, format: .currency(code: "PLN"))
-                    .keyboardType(.decimalPad)
+                LabeldCurrencyTextField(
+                    title: "Total amount",
+                    placeholder: "Total amount",
+                    value: $newCostModel.fullAmount
+                )
 
-                TextField("Paid", value: $cost.paidAmount, format: .currency(code: "PLN"))
-                    .keyboardType(.decimalPad)
+                LabeldCurrencyTextField(
+                    title: "Paid",
+                    placeholder: "Paid",
+                    value: $newCostModel.paidAmount
+                )
             }
+
+            Button("Save") {
+                cost.update(with: newCostModel)
+                navigationManager.navigateBack()
+            }
+            .disabled(newCostModel.isInvalid)
+
+            Button("Reload") {
+                newCostModel = .init(form: cost)
+            }
+
         }
         .navigationTitle("Edit cost")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-private extension DetailRow {
-    init(icon: String, title: String, value: Double, format: FloatingPointFormatStyle<Double>) {
-        self.init(icon: icon, title: title, value: value.formatted(format))
-    }
-}
-
+#if DEBUG
 #Preview {
     NavigationStack {
-        EditCostView(cost: .fakeData, initialCost: .fakeData)
+        EditCostView(cost: .fakeData)
+            .appEnvironment()
     }
 }
+#endif

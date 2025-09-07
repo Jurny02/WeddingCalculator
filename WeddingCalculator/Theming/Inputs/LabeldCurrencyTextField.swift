@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct LabeldCurrencyTextField: View {
-    @Binding var value: Double
-    let placeholder: String
     let title: String
+    let placeholder: String
+    @Binding var value: Double
     let currencyCode: String
 
-    init(value: Binding<Double>, placeholder: String, title: String, currencyCode: String = "PLN") {
+    init(title: String, placeholder: String, value: Binding<Double>, currencyCode: String = "PLN") {
         _value = value
         self.placeholder = placeholder
         self.title = title
@@ -24,7 +24,10 @@ struct LabeldCurrencyTextField: View {
             Text(title)
             TextField(placeholder, value: $value, format: .currency(code: currencyCode))
                 .keyboardType(.decimalPad)
-                .padding(.leading)
+                .multilineTextAlignment(.trailing)
+                .submitLabel(.done)
+                .padding(.horizontal, 4)
+                .frame(maxWidth: .infinity)
         }
     }
 }
@@ -32,8 +35,8 @@ struct LabeldCurrencyTextField: View {
 #Preview {
     @Previewable @State var value: Double = 0
     LabeldCurrencyTextField(
-        value: $value,
+        title: "title: ",
         placeholder: "placeholder",
-        title: "title: "
+        value: $value
     )
 }

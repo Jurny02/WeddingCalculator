@@ -20,6 +20,37 @@ class Cost: Identifiable {
         fullAmount - paidAmount
     }
 
+    var paymentProgressString: String {
+        "\(Int((paidAmount / fullAmount) * 100))%"
+    }
+
+    var paymentStatusText: String {
+        if amountToPay == 0 {
+            return "Fully Paid"
+        } else if paidAmount == 0 {
+            return "Not Paid"
+        } else {
+            return "Partially Paid"
+        }
+    }
+
+    var paymentStatusColor: Color {
+        guard fullAmount > 0 else { return .gray }
+
+        let hue: Double
+        if progress < 0.8 {
+            hue = 0.0 + (0.16 * (progress / 0.8))
+        } else {
+            hue = 0.16 + (0.17 * ((progress - 0.8) / 0.2))
+        }
+
+        return Color(hue: hue, saturation: 0.9, brightness: 0.9)
+    }
+
+    private var progress: Double {
+        paidAmount / fullAmount
+    }
+
     init(name: String, fullAmount: Double, paidAmount: Double) {
         self.id = UUID()
         self.name = name
@@ -27,11 +58,14 @@ class Cost: Identifiable {
         self.paidAmount = paidAmount
     }
 
-    static var fakeData: Cost {
-        .init(name: "DJ", fullAmount: 6000, paidAmount: 1000)
+    func update(with model: NewCostModel) {
+        name = model.name
+        paidAmount = model.paidAmount
+        fullAmount = model.fullAmount
     }
 }
 
+#if DEBUG
 extension [Cost] {
     static var fakeData: [Cost] {
         [
@@ -42,3 +76,10 @@ extension [Cost] {
         ]
     }
 }
+
+extension Cost {
+    static var fakeData: Cost {
+        .init(name: "DJ", fullAmount: 6000, paidAmount: 1000)
+    }
+}
+#endif

@@ -10,9 +10,18 @@ import OSLog
 
 @Observable
 class CalculatorManager {
-    enum CMError: Error {
+    enum CMError: Error, SnackbarRepresentable {
         case saveFailed
         case loadFailed
+
+        var snackbarConfig: SnackbarConfig {
+            switch self {
+            case .saveFailed:
+                    .error(message: "Saving data failed")
+            case .loadFailed:
+                    .error(message: "Loading data failed")
+            }
+        }
     }
 
     let persistence: CalculatorPersistence

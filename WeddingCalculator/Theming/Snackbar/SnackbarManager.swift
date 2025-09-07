@@ -10,15 +10,17 @@ import Combine
 
 @MainActor @Observable
 class SnackbarManager {
-    private(set) var current: SnackBarConfig?
-    private(set) var queue: [SnackBarConfig] = []
+    private(set) var current: SnackbarConfig?
+    private(set) var queue: [SnackbarConfig] = []
 
-    init() { }
-
-    func show(_ config: SnackBarConfig) {
+    func show(_ config: SnackbarConfig) {
         guard queue.last != config, queue.count < 5 else { return }
         queue.append(config)
         print(queue)
+    }
+
+    func handle(event: SnackbarRepresentable) {
+        show(event.snackbarConfig)
     }
 
     func pop() {

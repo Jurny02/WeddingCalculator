@@ -8,20 +8,21 @@
 import SwiftUI
 
 struct LabeledTextField: View {
-    @Binding var name: String
     let title: String
     let placeholder: String
+    @Binding var value: String
     var body: some View {
         HStack {
             Text(title)
             Spacer()
-            TextField(placeholder, text: $name)
+            TextField(placeholder, text: $value)
                 .padding(.leading)
+                .multilineTextAlignment(.trailing)
         }
     }
 }
 
 #Preview {
     @Previewable @State var name: String = ""
-    LabeledTextField(name: $name, title: "Test", placeholder: "SOme")
+    LabeledTextField(title: "SOme", placeholder: "Test", value: $name)
 }
