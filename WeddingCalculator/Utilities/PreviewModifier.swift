@@ -14,6 +14,7 @@ extension View {
         self
             .modelContainer(for: [Cost.self, GuestModel.self])
             .environment(NavigationManager<CostNavigation>())
+            .environment(NavigationManager<GuestNavigation>())
             .environment(SnackbarManager())
     }
 }

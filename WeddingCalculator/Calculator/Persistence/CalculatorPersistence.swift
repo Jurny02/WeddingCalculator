@@ -23,7 +23,7 @@ class DefaultCalculatorPersistence: CalculatorPersistence {
         case savingError
     }
 
-    private let logger = Logger(subsystem: "com.bartoszjurczyk.WeddingCalculator", category: "DefaultCalculatorPersistence")
+    private let logger = getLogger(category: "DefaultCalculatorPersistence")
     private let userDefaults = UserDefaults.standard
 
     func get() throws(CPError) -> CalculatorStateDTO {

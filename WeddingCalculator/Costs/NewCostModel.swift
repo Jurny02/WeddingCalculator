@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-@Observable @MainActor
+@Observable
 class NewCostModel {
     enum NCMError: Error {
         case savingFailed
@@ -47,10 +47,6 @@ class NewCostModel {
         context.insert(cost)
     }
 
-    private var trimmedName: String {
-        name.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
     func createCost() throws(NCMError) -> Cost {
         guard isInvalid == false else {
             throw .validationFailed
@@ -61,5 +57,9 @@ class NewCostModel {
             fullAmount: fullAmount,
             paidAmount: paidAmount
         )
+    }
+
+    private var trimmedName: String {
+        name.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

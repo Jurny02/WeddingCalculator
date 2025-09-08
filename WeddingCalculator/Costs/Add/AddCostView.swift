@@ -17,7 +17,7 @@ struct AddCostView: View {
 
     var body: some View {
         Form {
-            textFields
+            AddCostFields(newCostModel: $newCostModel)
 
             Section {
                 Button("Add cost") {
@@ -33,28 +33,6 @@ struct AddCostView: View {
         }
         .navigationTitle("Add cost")
         .navigationBarTitleDisplayMode(.inline)
-    }
-
-    private var textFields: some View {
-        Section {
-            LabeledTextField(
-                title: "Cost name: ",
-                placeholder: "Name",
-                value: $newCostModel.name
-            )
-
-            LabeldCurrencyTextField(
-                title: "Total amount: ",
-                placeholder: "Amount",
-                value: $newCostModel.fullAmount
-            )
-
-            LabeldCurrencyTextField(
-                title: "Total paid: ",
-                placeholder: "Paid",
-                value: $newCostModel.paidAmount
-            )
-        }
     }
 }
 

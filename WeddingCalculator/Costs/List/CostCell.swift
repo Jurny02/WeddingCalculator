@@ -10,14 +10,14 @@ import SwiftUI
 struct CostCell: View {
     let cost: Cost
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(cost.name)
                     .font(.headline)
                 Spacer()
                 Text(cost.fullAmount, format: .currency(code: "PLN"))
             }
-            .padding(.bottom, 2)
+            .padding(.bottom, 4)
 
             HStack {
                 Text("Paid:")
@@ -37,4 +37,8 @@ struct CostCell: View {
         }
         .padding(.vertical, 4)
     }
+}
+
+#Preview {
+    CostCell(cost: .fakeData)
 }

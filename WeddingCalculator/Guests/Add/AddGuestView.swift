@@ -11,50 +11,40 @@ struct AddGuestView: View {
     @Environment(SnackbarManager.self) var snackbarManager
     @Environment(NavigationManager<GuestNavigation>.self) private var navigationManager
     @Environment(\.modelContext) var context
-    @State private var name: String = ""
-    @State private var numberOfGuests: Int = 1
-    @State private var country: String = ""
-    @State private var confirmed: Bool = false
+    @State private var newGuestModel = NewGuestModel()
 
     var body: some View {
         Form {
             Section("Guest Information") {
-                TextField("Name", text: $name)
+                TextField("Name", text: $newGuestModel.name)
 
-                Stepper("Number of guests: \(numberOfGuests)", value: $numberOfGuests, in: 1...10)
+                Stepper("Number of guests: \(newGuestModel.numberOfGuests)", value: $newGuestModel.numberOfGuests, in: 1...10)
 
-                TextField("Country", text: $country)
+                TextField("Country", text: $newGuestModel.country)
 
-                Toggle("Confirmed", isOn: $confirmed)
-                Button("TEST"){
-                    snackbarManager.show(.success(message: "ESSA"))
-                }
+                Toggle("Confirmed", isOn: $newGuestModel.confirmed)
             }
 
             Section {
                 Button("Add Guest") {
-                    addGuest()
+                    do throws(NewGuestModel.NGMError) {
+                        try newGuestModel.addGuest(to: context)
+                        navigationManager.navigateBack()
+                    } catch {
+                        snackbarManager.handle(event: error)
+                    }
                 }
-                .disabled(name.isEmpty || country.isEmpty)
+                .disabled(newGuestModel.isInvalid)
             }
         }
         .navigationTitle("Add Guest")
         .navigationBarTitleDisplayMode(.inline)
     }
-
-    private func addGuest() {
-        let newGuest = GuestModel(
-            name: name,
-            confirmed: confirmed,
-            numberOfGuests: numberOfGuests,
-            country: country
-        )
-        context.insert(newGuest)
-        navigationManager.navigateToRoot()
-    }
 }
 
 #Preview {
-    AddGuestView()
-        .environment(NavigationManager<GuestNavigation>())
+    NavigationStack {
+        AddGuestView()
+            .appEnvironment()
+    }
 }

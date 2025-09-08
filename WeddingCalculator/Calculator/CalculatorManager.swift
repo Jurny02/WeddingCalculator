@@ -27,8 +27,7 @@ class CalculatorManager {
     let persistence: CalculatorPersistence
     var calculatorState = CalculatorState()
 
-    private let logger = Logger(subsystem: "com.bartoszjurczyk.WeddingCalculator",
-                                category: "CalculatorManager")
+    private let logger = getLogger(category: "CalculatorManager")
     init(persistence: CalculatorPersistence = DefaultCalculatorPersistence()) {
         self.persistence = persistence
     }

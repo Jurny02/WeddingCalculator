@@ -61,12 +61,6 @@ struct EditGuestView: View {
         .navigationTitle("Edit Guest")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("Cancel") {
-                    navigationManager.navigateBack()
-                }
-            }
-
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Save") {
                     saveChanges()
@@ -85,7 +79,7 @@ struct EditGuestView: View {
     }
 }
 
-// #Preview {
-//    EditGuestView(guest: .init(GuestModel.fakeData[0]))
-//        .environment(NavigationManager<GuestNavigation>())
-// }
+ #Preview {
+     EditGuestView(guest: .fakeData[0])
+         .appEnvironment()
+ }
